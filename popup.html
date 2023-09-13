@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <button id="markAsApplied">Mark as Applied</button>
-    <script src="popup.js"></script>
-  </body>
+<head>
+  <title>Job Application Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Button to mark the current job as applied -->
+    <button id="markAsApplied" class="apply-button">Mark as Applied</button>
+
+    <!-- Container to display the list of saved jobs -->
+    <div id="jobListContainer" class="job-list">
+      <!-- Job list will be populated here -->
+    </div>
+  </div>
+
+  <!-- Include the JavaScript file -->
+  <script src="popup.js"></script>
+</body>
 </html>

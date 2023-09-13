@@ -1,0 +1,64 @@
+/* Container styling */
+.container {
+  padding: 20px;
+  width: 300px;
+  font-family: Arial, sans-serif;
+}
+
+/* Button styling */
+.apply-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Hover effect for the button */
+.apply-button:hover {
+  background-color: #45a049;
+}
+
+/* Job list container styling */
+.job-list {
+  margin-top: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+/* List item styling */
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Button styling within the list */
+button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+/* Hover effect for list buttons */
+button:hover {
+  background-color: #e33e2b;
+}
+
+/* Disabled button styling */
+.apply-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
