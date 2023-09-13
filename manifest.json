@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Job Application Manager",
+  "version": "1.0",
+  "description": "Manage your job applications",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://lancersagent.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
