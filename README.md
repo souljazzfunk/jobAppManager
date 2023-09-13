@@ -10,7 +10,7 @@ This Chrome extension helps manage your job applications on specific websites. W
 ## Features
 
 - **Mark as Applied**: Click the extension icon and then the "Mark as Applied" button to add the job to your applied list.
-- **Visual Highlighting**: Jobs that you have marked as applied will have a green background on the listing page.
+- **Visual Highlighting**: Jobs that you have marked as applied will have a colored background on the listing page.
 
 ## Installation
 
