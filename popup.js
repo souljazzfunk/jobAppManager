@@ -46,26 +46,30 @@ function timeAgo(timestamp) {
   return `${years} years ago`
 }
 
-const displaySavedJobs = async (container) => {
+async function displaySavedJobs(container) {
   try {
-    const items = await chrome.storage.local.get(null)
-    container.innerHTML = ''
+    const items = await chrome.storage.local.get(null);
+    container.innerHTML = '';
 
-    Object.entries(items).forEach(([urlId, jobData]) => {
-      if (jobData.status === 'applied') {
-        const listItem = document.createElement('li')
-        listItem.textContent = `${jobData.title} - ${timeAgo(jobData.timestamp)}`
+    const sortedJobs = Object.keys(items)
+      .map(urlId => ({ urlId, ...items[urlId] }))
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-        const deleteButton = document.createElement('button')
-        deleteButton.textContent = 'Delete'
-        deleteButton.addEventListener('click', () => editJob(urlId))
+    sortedJobs.forEach(({ urlId, title, timestamp }) => {
+      if (items[urlId].status === 'applied') {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${title} - ${timeAgo(timestamp)}`;
 
-        listItem.append(deleteButton)
-        container.append(listItem)
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => editJob(urlId));
+
+        listItem.appendChild(deleteButton);
+        container.appendChild(listItem);
       }
-    })
+    });
   } catch (error) {
-    console.error('An error occurred while fetching saved jobs:', error)
+    console.error('An error occurred while fetching saved jobs:', error);
   }
 }
 
