@@ -16,10 +16,13 @@ This Chrome extension helps manage your job applications on specific websites. W
 
 ### From GitHub
 
-1. Clone this repository: `git clone https://github.com/souljazzfunk/jobAppManager.git`
-2. Open Chrome and go to `chrome://extensions/`
-3. Enable "Developer mode" if it's not already enabled.
-4. Click "Load unpacked" and select the directory where you cloned this repository.
+1. Clone this repository: 
+```
+git clone https://github.com/souljazzfunk/jobAppManager.git
+```
+1. Open Chrome and go to `chrome://extensions/`
+2. Enable "Developer mode" if it's not already enabled.
+3. Click "Load unpacked" and select the directory where you cloned this repository.
 
 ## Usage
 
