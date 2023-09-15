@@ -12,7 +12,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://lancersagent.com/*"],
+      "matches": ["https://lancersagent.com/*", "https://haken.en-japan.com/*", "https://crowdtech.jp/*"],
       "js": ["content.js"]
     }
   ]

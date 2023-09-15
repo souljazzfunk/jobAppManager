@@ -2,29 +2,38 @@
 chrome.storage.local.get(null)
   .then(items => {
     // Query the DOM to find all job list items
-    const forms = document.querySelectorAll('.cmn-column.project-list__item');
+    const cards = document.querySelectorAll('.cmn-column.project-list__item, .card.job-card.job-list, .serachListUnit')
     
-    // Iterate through each form to apply custom styling for applied jobs
-    forms.forEach(form => applyCustomStyling(form, items));
+    // Iterate through each card to apply custom styling for applied jobs
+    cards.forEach(card => applyCustomStyling(card, items))
   })
   .catch(err => {
-    console.error('An error occurred while fetching saved job IDs:', err);
-  });
+    console.error('An error occurred while fetching saved job IDs:', err)
+  })
 
 /**
  * Applies custom styling to a job list item based on its application status.
  * 
- * @param {HTMLElement} form - The form element representing a job list item.
+ * @param {HTMLElement} card - The card element representing a job list item.
  * @param {Object} items - An object containing saved job data.
  */
-const applyCustomStyling = (form, items) => {
-  // Extract the last part of the URL from the form action attribute as the unique job ID
-  const action = form.getAttribute('action');
-  const urlId = action.split('/').pop();
+const applyCustomStyling = (card, items) => {
+  const customColor = '#ddd'
+
+  // Extract the unique job ID
+  let jobId = card.getAttribute('action') || card.getAttribute('data-job-offer-id') || card.getAttribute('data-id')
+  if (jobId.includes('/')){
+    jobId = jobId.split('/').pop()
+  }
   
   // Check if this job has been marked as applied
-  if (items[urlId] && items[urlId].status === 'applied') {
-    // Apply custom styling for jobs that are marked as applied
-    form.style.backgroundColor = '#dbeafe';
+  if (items[jobId] && items[jobId].status === 'applied') {
+   // If the inner div exists, change its background color
+   const baseDiv = card.querySelector('.base')
+   if (baseDiv) {
+     baseDiv.style.backgroundColor = customColor
+   } else {
+    card.style.backgroundColor = customColor
+   }
   }
-};
+}
