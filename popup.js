@@ -5,29 +5,50 @@ document.addEventListener('DOMContentLoaded', () => {
   markAsAppliedButton.addEventListener('click', markJobAsApplied)
   displaySavedJobs(jobListContainer)
 
-  validateCurrentPage()
+  // validateCurrentPage()
 })
 
 const markJobAsApplied = async () => {
   try {
-    const [{ url, title }] = await chrome.tabs.query({ active: true, currentWindow: true })
-    const urlId = url.split('/').pop()
-    const timestamp = new Date().toISOString()
+    const [{ url, title }] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    let urlId;
+
+    // Handle URLs from en-japan.com
+    if (url.includes('en-japan.com')) {
+      const match = url.match(/w_(\d+)\//);
+      if (match) {
+        urlId = match[1];
+      }
+    }
+    // Handle other URLs
+    else {
+      urlId = url.split('/').pop();
+    }
+
+    // Proceed only if urlId is determined
+    if (!urlId) {
+      console.error('Could not determine job ID from the URL.');
+      return;
+    }
+
+    const timestamp = new Date().toISOString();
 
     const jobData = {
       status: 'applied',
       timestamp,
       title
-    }
+    };
 
-    await chrome.storage.local.set({ [urlId]: jobData })
-    displaySavedJobs(document.getElementById('jobListContainer'))
+    await chrome.storage.local.set({ [urlId]: jobData });
+    displaySavedJobs(document.getElementById('jobListContainer'));
+
   } catch (error) {
-    console.error('An error occurred:', error)
+    console.error('An error occurred:', error);
   }
 }
 
-function timeAgo(timestamp) {
+const timeAgo = (timestamp) => {
   const now = new Date()
   const date = new Date(timestamp)
   const diffInSeconds = Math.floor((now - date) / 1000)
@@ -48,40 +69,40 @@ function timeAgo(timestamp) {
 
 async function displaySavedJobs(container) {
   try {
-    const items = await chrome.storage.local.get(null);
-    container.innerHTML = '';
+    const items = await chrome.storage.local.get(null)
+    container.innerHTML = ''
 
     const sortedJobs = Object.keys(items)
       .map(urlId => ({ urlId, ...items[urlId] }))
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
 
     sortedJobs.forEach(({ urlId, title, timestamp }) => {
       if (items[urlId].status === 'applied') {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${title} - ${timeAgo(timestamp)}`;
+        const listItem = document.createElement('li')
+        listItem.textContent = `${title} - ${timeAgo(timestamp)}`
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => editJob(urlId));
+        const deleteButton = document.createElement('button')
+        deleteButton.textContent = 'Delete'
+        deleteButton.addEventListener('click', () => editJob(urlId))
 
-        listItem.appendChild(deleteButton);
-        container.appendChild(listItem);
+        listItem.appendChild(deleteButton)
+        container.appendChild(listItem)
       }
-    });
+    })
   } catch (error) {
-    console.error('An error occurred while fetching saved jobs:', error);
+    console.error('An error occurred while fetching saved jobs:', error)
   }
 }
 
 const editJob = (urlId) => {
-  const isConfirmed = confirm('Are you sure you want to delete this job entry?');
+  const isConfirmed = confirm('Are you sure you want to delete this job entry?')
 
   if (isConfirmed) {
     chrome.storage.local.remove(urlId, () => {
-      displaySavedJobs(document.getElementById('jobListContainer'));
-    });
+      displaySavedJobs(document.getElementById('jobListContainer'))
+    })
   }
-};
+}
 
 
 const validateCurrentPage = async () => {
